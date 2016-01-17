@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">TomatoRelax</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_setting">Setting</string>
+    <string name="menu_aboutus">About us</string>
+    <string name="time25">25:00</string>
+    <string name="time5">5:00</string>
+    <string name="btn_start">Start</string>
+    <string name="pomodoro_duration">Pomodoro duration</string>
+    <string name="short_break_duration">Short break duration</string>
+    <string name="long_break_duration">Long break duration</string>
+    <string name="playlist_music">Playlist music</string>
+    <string name="playlist_exercise">Playlist exercise</string>
+    <string name="work_time">Work time</string>
+    <string name="break_time">Break time</string>
+    <string name="btn_default">Reset</string>
+    <string name="btn_pause">Pause</string>
+</resources>
