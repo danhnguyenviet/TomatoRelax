@@ -78,11 +78,11 @@ public class MainActivity extends AppCompatActivity {
         } else if (workTimeStr.contains("minutes")){
             timeRemain = workTime = Long.parseLong(workTimeStr.replace(" minutes", ""));
             alarm.setText(timeRemain + ":00");
-            timeRemain = workTime = Long.parseLong(workTimeStr.replace(" minutes", "")) * 60;
+            timeRemain = workTime = workTime * 60;
 
         }
 
-        timer = new CountDownTimer(workTime * 1000, 1000) {
+        timer = new CountDownTimer(timeRemain * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 long millis = millisUntilFinished;
@@ -94,13 +94,17 @@ public class MainActivity extends AppCompatActivity {
                 String hms = String.format("%02d:%02d:%02d", hour, minnute, second);
                 Log.d("Kq: ", hms);
 
-                alarm.setText(hms);
+                alarm.setText(hms.replaceFirst("00:", ""));
                 timeRemain = millis/1000;
+//                if (timeRemain == 1) {
+//
+//                }
             }
 
             @Override
             public void onFinish() {
-
+                alarm.setText("00:00");
+                timeRemain = workTime;
             }
         };
 
@@ -111,16 +115,16 @@ public class MainActivity extends AppCompatActivity {
                     isStarted = true;
                     timer.start();
                     btnStart.setText("Pause");
-                } else {
+                } else { // running
                     isStarted = false;
                     timer.cancel();
                     btnStart.setText("Start");
+                    startCountDownTimer();
                 }
                 System.out.println(numOfTomato + "DanhNguyen@");
                 System.out.println(workTime + "DanhNguyen@");
             }
         });
-
 
     }
 
@@ -167,11 +171,37 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-
         } else if (workTimeStr.contains("minutes")){
             timeRemain = workTime = Long.parseLong(workTimeStr.replace(" minutes", ""));
             alarm.setText(timeRemain + ":00");
+            timeRemain = workTime = workTime * 60;
+
         }
+
+
+    }
+
+    private void startCountDownTimer() {
+        timer = new CountDownTimer(timeRemain * 1000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                long millis = millisUntilFinished;
+                long hour = TimeUnit.MILLISECONDS.toHours(millis);
+                long minnute = TimeUnit.MILLISECONDS.toMinutes(millis) -
+                        TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis));
+                long second = TimeUnit.MILLISECONDS.toSeconds(millis) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis));
+                String hms = String.format("%02d:%02d:%02d", hour, minnute, second);
+                Log.d("Kq: ", hms);
+
+                alarm.setText(hms.replaceFirst("00:", ""));
+                timeRemain = millis/1000;
+                System.out.println(timeRemain + "DanhNguyen@timeRemain");
+            }
+            public void onFinish() {
+                //nTimeLabel.setText("done!");
+                alarm.setText("00:00");
+            }
+        };
     }
 
     public String getWorkTime(){
