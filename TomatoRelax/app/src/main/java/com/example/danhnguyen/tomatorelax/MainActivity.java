@@ -2,6 +2,7 @@ package com.example.danhnguyen.tomatorelax;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Build;
@@ -18,10 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.concurrent.TimeUnit;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private String workTimeStr;
     private TextView alarm;
     private Button btnStart;
+    private Button btnReset;
     private ImageView tomato0, tomato1, tomato2, tomato3, tomato4, tomato5, tomato6, tomato7,
             tomato8, tomato9, tomato10;
     private long timeRemain, workTime;
@@ -44,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         alarm = (TextView) findViewById(R.id.textView);
         btnStart = (Button) findViewById(R.id.button);
+        btnReset = (Button) findViewById(R.id.button2);
         tomato0 = (ImageView) findViewById(R.id.ivTomato);
         tomato1 = (ImageView) findViewById(R.id.imageView);
         tomato2 = (ImageView) findViewById(R.id.imageView3);
@@ -56,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
         tomato9 = (ImageView) findViewById(R.id.imageView9);
         tomato10 = (ImageView) findViewById(R.id.imageView10);
 
+        btnStart.setText("Start");
+        isStarted = false;
+
         numOfTomato = getNumOfTomato();
         setColorOfTomato(numOfTomato);
 
@@ -66,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (workTimeStr.contains("seconds")){
-            timeRemain = workTime = Long.parseLong(workTimeStr.replace(" seconds", ""));
+            workTime = Long.parseLong(workTimeStr.replace(" seconds", ""));
+            timeRemain = workTime;
             if (timeRemain < 10) {
                 alarm.setText("00:0" + timeRemain);
             } else if (timeRemain < 60) {
@@ -76,10 +86,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         } else if (workTimeStr.contains("minutes")){
-            timeRemain = workTime = Long.parseLong(workTimeStr.replace(" minutes", ""));
+            workTime = Long.parseLong(workTimeStr.replace(" minutes", ""));
+            timeRemain = workTime;
             alarm.setText(timeRemain + ":00");
             timeRemain = workTime = workTime * 60;
-
         }
 
         timer = new CountDownTimer(timeRemain * 1000, 1000) {
@@ -105,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 alarm.setText("00:00");
                 timeRemain = workTime;
+                addTomato();
             }
         };
 
@@ -138,6 +149,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_relax:
+                //Toast.makeText(getApplicationContext(),"Item 2 Selected",Toast.LENGTH_LONG).show();
+                Intent relaxIn = new Intent(this, RelaxActivity.class);
+                startActivity(relaxIn);
+                return true;
             case R.id.menu_setting:
                 //Toast.makeText(getApplicationContext(),"Item 2 Selected",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(this, SettingActivity.class);
@@ -145,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_aboutus:
                 //Toast.makeText(getApplicationContext(),"Item 3 Selected",Toast.LENGTH_LONG).show();
-                Intent relaxIntent = new Intent(this, RelaxActivity.class);
-                startActivity(relaxIntent);
+                Intent aboutus = new Intent(this, AboutusActivity.class);
+                startActivity(aboutus);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -200,8 +216,95 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 //nTimeLabel.setText("done!");
                 alarm.setText("00:00");
+                addTomato();
             }
         };
+    }
+
+    public void resetActivity(View view){
+        //timeRemain = workTime;
+
+        if (workTimeStr.contains("seconds")){
+            timeRemain = workTime = Long.parseLong(workTimeStr.replace(" seconds", ""));
+            if (timeRemain < 10) {
+                alarm.setText("00:0" + timeRemain);
+            } else if (timeRemain < 60) {
+                alarm.setText("00:" + timeRemain);
+            }
+
+
+
+        } else if (workTimeStr.contains("minutes")){
+            timeRemain = workTime = Long.parseLong(workTimeStr.replace(" minutes", ""));
+            alarm.setText(timeRemain + ":00");
+            workTime = workTime * 60;
+            timeRemain = workTime;
+
+        }
+
+        btnStart.setText("Start");
+        isStarted = false;
+        timer.cancel();
+        startCountDownTimer();
+    }
+
+    public void addTomato() {
+        numOfTomato++;
+        if (numOfTomato > 11)
+            numOfTomato = 0;
+        setColorOfTomato(numOfTomato);
+
+        BufferedReader bufferedReader = null;
+        String[] result = new String[7];
+        try {
+            FileInputStream fileInputStream = openFileInput("tomatorelax.txt");
+            bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+            String line;
+            int i = 0;
+            while ((line = bufferedReader.readLine()) != null){
+                result[i] = line;
+                i++;
+            }
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                bufferedReader.close();
+                Toast.makeText(getApplicationContext(), "Setting was read", Toast.LENGTH_SHORT).show();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
+
+        // Save
+        BufferedWriter bufferedWriter = null;
+        try{
+            FileOutputStream fileOutputStream = openFileOutput("tomatorelax.txt", Context.MODE_PRIVATE);
+            bufferedWriter = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
+            bufferedWriter.write(numOfTomato + "\r\n" +
+                    result[1].toString() + "\r\n" +
+                    result[2].toString() + "\r\n" +
+                    result[3].toString() + "\r\n" +
+                    result[4].toString() + "\r\n" +
+                    result[5].toString());
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            try{
+                bufferedWriter.close();
+                Toast.makeText(getApplicationContext(), "Setting was saved", Toast.LENGTH_SHORT).show();
+//                readSetting(view);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
+
     }
 
     public String getWorkTime(){
@@ -269,6 +372,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void setColorOfTomato(int num){
         switch (num){
+            case 0:
+                tomato0.setImageResource(R.mipmap.green_tomato);
+                tomato1.setImageResource(R.mipmap.green_tomato);
+                tomato2.setImageResource(R.mipmap.green_tomato);
+                tomato3.setImageResource(R.mipmap.green_tomato);
+                tomato4.setImageResource(R.mipmap.green_tomato);
+                tomato5.setImageResource(R.mipmap.green_tomato);
+                tomato6.setImageResource(R.mipmap.green_tomato);
+                tomato7.setImageResource(R.mipmap.green_tomato);
+                tomato8.setImageResource(R.mipmap.green_tomato);
+                tomato9.setImageResource(R.mipmap.green_tomato);
+                tomato10.setImageResource(R.mipmap.green_tomato);
+                break;
             case 1:
                 tomato0.setImageResource(R.mipmap.red_tomato);
                 break;
@@ -360,34 +476,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-    @SuppressLint("NewApi")
-    public class CounterClass extends CountDownTimer {
 
-        public CounterClass(long millisInFuture, long countDownInterval){
-            super(millisInFuture, countDownInterval);
-
-        }
-
-        @SuppressLint("NewApi")
-        @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-        @Override
-        public void onTick(long millisUntilFinished) {
-            //long millis = millisUntilFinished;
-//            String ms = String.format("%02d:%02d:%02d",
-//                    TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
-//                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
-//                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
-//                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-//                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
-//            System.out.println(ms);
-//            alarm.setText(ms);
-//            timeRemain = millisUntilFinished/1000;
-        }
-
-        @Override
-        public void onFinish() {
-            alarm.setText("00:00");
-        }
-    }
 }

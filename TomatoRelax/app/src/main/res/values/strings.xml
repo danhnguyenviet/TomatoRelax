@@ -16,4 +16,6 @@
     <string name="btn_default">Reset</string>
     <string name="btn_save">Save</string>
     <string name="btn_pause">Pause</string>
+    <string name="menu_relax">Relax</string>
+
 </resources>
