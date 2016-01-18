@@ -1,5 +1,6 @@
 package com.example.danhnguyen.tomatorelax;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.VideoView;
@@ -13,8 +14,13 @@ public class RelaxActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_relax);
 
+        String uriPath = "android.resource://com.example.danhnguyen.tomatorelax/" + R.raw.punching;
+        Uri videoUri = Uri.parse(uriPath);
+
         VideoView videoView = (VideoView)findViewById(R.id.VideoView);
-        videoView.setVideoPath("E:\\Github\\TomatoRelax\\TomatoRelax\\app\\src\\main\\assets\\Knee.mp4");
+        videoView.setVideoURI(videoUri);
+        videoView.requestFocus();
         videoView.start();
+
     }
 }

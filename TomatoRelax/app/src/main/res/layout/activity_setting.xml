@@ -1,123 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView android:text="@string/menu_setting"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:textSize="50sp"
-        android:textColor="#ff0000"
-        android:id="@+id/textView"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/pomodoro_duration"
-        android:id="@+id/textView2"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+        <TextView android:text="@string/menu_setting"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:textSize="50sp"
+            android:textColor="#ff0000"
+            android:id="@+id/textView"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
 
-    <Spinner
-        android:id="@+id/pomodoro_duration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dropdown"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:background="#f2f2f2"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/pomodoro_duration"
+            android:id="@+id/textView2"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/short_break_duration"
-        android:id="@+id/textView3"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+        <Spinner
+            android:id="@+id/pomodoro_duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="#f2f2f2"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
 
-    <Spinner
-        android:id="@+id/short_break_duration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dropdown"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:background="#f2f2f2"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/short_break_duration"
+            android:id="@+id/textView3"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/long_break_duration"
-        android:id="@+id/textView4"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+        <Spinner
+            android:id="@+id/short_break_duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="#f2f2f2"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
 
-    <Spinner
-        android:id="@+id/long_break_duration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dropdown"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:background="#f2f2f2"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/long_break_duration"
+            android:id="@+id/textView4"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/playlist_music"
-        android:id="@+id/textView5"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+        <Spinner
+            android:id="@+id/long_break_duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="#f2f2f2"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
 
-    <Spinner
-        android:id="@+id/playlist_music"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dropdown"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:background="#f2f2f2"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/playlist_music"
+            android:id="@+id/textView5"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/playlist_exercise"
-        android:id="@+id/textView6"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+        <Spinner
+            android:id="@+id/playlist_music"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="#f2f2f2"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
 
-    <Spinner
-        android:id="@+id/playlist_exercise"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dropdown"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:background="#f2f2f2"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/playlist_exercise"
+            android:id="@+id/textView6"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
 
-    <Button
-        android:text="@string/btn_default"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:textSize="40sp"
-        android:layout_marginTop="29dp"
-        android:layout_below="@+id/textView"
-        android:textColor="#ffffff"
-        android:background="#999999"
-        android:id="@+id/btn_reset"
-        android:layout_gravity="center"
-        android:layout_centerInParent="true"/>
+        <Spinner
+            android:id="@+id/playlist_exercise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="#f2f2f2"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
 
-</LinearLayout>
+    <LinearLayout android:layout_width="fill_parent"
+        android:id="@+id/linearLayout1"
+        android:layout_height="wrap_content">
+        <Button
+            android:text="@string/btn_save"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="30sp"
+            android:layout_marginTop="29dp"
+            android:textColor="#ffffff"
+            android:background="#999999"
+            android:id="@+id/btn_save"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="10dp"
+            android:onClick="saveSetting"/>
+
+        <Button
+            android:text="@string/btn_default"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="30sp"
+            android:layout_marginTop="29dp"
+            android:textColor="#ffffff"
+            android:background="#999999"
+            android:id="@+id/btn_reset"
+            android:layout_marginLeft="10dp"
+            android:onClick="resetSetting"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

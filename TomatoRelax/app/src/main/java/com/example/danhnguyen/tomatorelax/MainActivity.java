@@ -1,18 +1,66 @@
 package com.example.danhnguyen.tomatorelax;
 
 import android.content.Intent;
+import android.media.Image;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class MainActivity extends AppCompatActivity {
+    public static int numOfTomato;
+    private String workTimeStr;
+    private CountDownTimer timer;
+    private TextView alarm;
+    private Button btnStart;
+    private ImageView tomato0, tomato1, tomato2, tomato3, tomato4, tomato5, tomato6, tomato7,
+            tomato8, tomato9, tomato10;
+    private long timeRemain, workTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        alarm = (TextView) findViewById(R.id.textView);
+        btnStart = (Button) findViewById(R.id.button);
+        tomato0 = (ImageView) findViewById(R.id.ivTomato);
+        tomato1 = (ImageView) findViewById(R.id.imageView);
+        tomato2 = (ImageView) findViewById(R.id.imageView3);
+        tomato3 = (ImageView) findViewById(R.id.imageView2);
+        tomato4 = (ImageView) findViewById(R.id.imageView4);
+        tomato5 = (ImageView) findViewById(R.id.imageView5);
+        tomato6 = (ImageView) findViewById(R.id.imageView6);
+        tomato7 = (ImageView) findViewById(R.id.imageView7);
+        tomato8 = (ImageView) findViewById(R.id.imageView8);
+        tomato9 = (ImageView) findViewById(R.id.imageView9);
+        tomato10 = (ImageView) findViewById(R.id.imageView10);
+
+        numOfTomato = getNumOfTomato();
+        setColorOfTomato(numOfTomato);
+
+        workTimeStr = getWorkTime();
+
+        if (workTimeStr.contains("seconds")){
+            workTime = workTimeStr.split(" ");
+        } else if (workTimeStr.contains("minutes")){
+
+        }
+
+
+        System.out.println(numOfTomato + "DanhNguyen@");
+        System.out.println(workTimeStr + "DanhNguyen@");
     }
 
     @Override
@@ -40,6 +88,162 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public String getWorkTime(){
+        String result = "";
+        BufferedReader bufferedReader = null;
+        try {
+            FileInputStream fileInputStream = openFileInput("tomatorelax.txt");
+            bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+            //String line;
+            int i = 0;
+            while ((result = bufferedReader.readLine()) != null){
+                // Do what you want
+                if (i == 1){
+                    break;
+                }
+                i++;
+            }
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                bufferedReader.close();
+                return result;
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
+    public int getNumOfTomato(){
+
+        int result = 0;
+        BufferedReader bufferedReader = null;
+        try {
+            FileInputStream fileInputStream = openFileInput("tomatorelax.txt");
+            bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+            String line;
+            int i = 0;
+            while ((line = bufferedReader.readLine()) != null){
+                // Do what you want
+                if (i == 0){
+                    result = Integer.parseInt(line);
+                    break;
+                }
+            }
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                bufferedReader.close();
+                return result;
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
+    public void setColorOfTomato(int num){
+        switch (num){
+            case 1:
+                tomato0.setImageResource(R.mipmap.red_tomato);
+                break;
+            case 2:
+                tomato0.setImageResource(R.mipmap.red_tomato);
+                tomato1.setImageResource(R.mipmap.red_tomato);
+                break;
+            case 3:
+                tomato0.setImageResource(R.mipmap.red_tomato);
+                tomato1.setImageResource(R.mipmap.red_tomato);
+                tomato2.setImageResource(R.mipmap.red_tomato);
+                break;
+            case 4:
+                tomato0.setImageResource(R.mipmap.red_tomato);
+                tomato1.setImageResource(R.mipmap.red_tomato);
+                tomato2.setImageResource(R.mipmap.red_tomato);
+                tomato3.setImageResource(R.mipmap.red_tomato);
+                break;
+            case 5:
+                tomato0.setImageResource(R.mipmap.red_tomato);
+                tomato1.setImageResource(R.mipmap.red_tomato);
+                tomato2.setImageResource(R.mipmap.red_tomato);
+                tomato3.setImageResource(R.mipmap.red_tomato);
+                tomato4.setImageResource(R.mipmap.red_tomato);
+                break;
+            case 6:
+                tomato0.setImageResource(R.mipmap.red_tomato);
+                tomato1.setImageResource(R.mipmap.red_tomato);
+                tomato2.setImageResource(R.mipmap.red_tomato);
+                tomato3.setImageResource(R.mipmap.red_tomato);
+                tomato4.setImageResource(R.mipmap.red_tomato);
+                tomato5.setImageResource(R.mipmap.red_tomato);
+                break;
+            case 7:
+                tomato0.setImageResource(R.mipmap.red_tomato);
+                tomato1.setImageResource(R.mipmap.red_tomato);
+                tomato2.setImageResource(R.mipmap.red_tomato);
+                tomato3.setImageResource(R.mipmap.red_tomato);
+                tomato4.setImageResource(R.mipmap.red_tomato);
+                tomato5.setImageResource(R.mipmap.red_tomato);
+                tomato6.setImageResource(R.mipmap.red_tomato);
+                break;
+            case 8:
+                tomato0.setImageResource(R.mipmap.red_tomato);
+                tomato1.setImageResource(R.mipmap.red_tomato);
+                tomato2.setImageResource(R.mipmap.red_tomato);
+                tomato3.setImageResource(R.mipmap.red_tomato);
+                tomato4.setImageResource(R.mipmap.red_tomato);
+                tomato5.setImageResource(R.mipmap.red_tomato);
+                tomato6.setImageResource(R.mipmap.red_tomato);
+                tomato7.setImageResource(R.mipmap.red_tomato);
+                break;
+            case 9:
+                tomato0.setImageResource(R.mipmap.red_tomato);
+                tomato1.setImageResource(R.mipmap.red_tomato);
+                tomato2.setImageResource(R.mipmap.red_tomato);
+                tomato3.setImageResource(R.mipmap.red_tomato);
+                tomato4.setImageResource(R.mipmap.red_tomato);
+                tomato5.setImageResource(R.mipmap.red_tomato);
+                tomato6.setImageResource(R.mipmap.red_tomato);
+                tomato7.setImageResource(R.mipmap.red_tomato);
+                tomato8.setImageResource(R.mipmap.red_tomato);
+                break;
+            case 10:
+                tomato0.setImageResource(R.mipmap.red_tomato);
+                tomato1.setImageResource(R.mipmap.red_tomato);
+                tomato2.setImageResource(R.mipmap.red_tomato);
+                tomato3.setImageResource(R.mipmap.red_tomato);
+                tomato4.setImageResource(R.mipmap.red_tomato);
+                tomato5.setImageResource(R.mipmap.red_tomato);
+                tomato6.setImageResource(R.mipmap.red_tomato);
+                tomato7.setImageResource(R.mipmap.red_tomato);
+                tomato8.setImageResource(R.mipmap.red_tomato);
+                tomato9.setImageResource(R.mipmap.red_tomato);
+                break;
+            case 11:
+                tomato0.setImageResource(R.mipmap.red_tomato);
+                tomato1.setImageResource(R.mipmap.red_tomato);
+                tomato2.setImageResource(R.mipmap.red_tomato);
+                tomato3.setImageResource(R.mipmap.red_tomato);
+                tomato4.setImageResource(R.mipmap.red_tomato);
+                tomato5.setImageResource(R.mipmap.red_tomato);
+                tomato6.setImageResource(R.mipmap.red_tomato);
+                tomato7.setImageResource(R.mipmap.red_tomato);
+                tomato8.setImageResource(R.mipmap.red_tomato);
+                tomato9.setImageResource(R.mipmap.red_tomato);
+                tomato10.setImageResource(R.mipmap.red_tomato);
+                break;
         }
     }
 }
