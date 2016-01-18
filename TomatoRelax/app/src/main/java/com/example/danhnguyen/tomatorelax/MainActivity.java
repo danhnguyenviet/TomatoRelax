@@ -1,12 +1,17 @@
 package com.example.danhnguyen.tomatorelax;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.media.Image;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,16 +22,20 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
+@TargetApi(Build.VERSION_CODES.GINGERBREAD)
+@SuppressLint("NewApi")
 public class MainActivity extends AppCompatActivity {
     public static int numOfTomato;
     private String workTimeStr;
-    private CountDownTimer timer;
     private TextView alarm;
     private Button btnStart;
     private ImageView tomato0, tomato1, tomato2, tomato3, tomato4, tomato5, tomato6, tomato7,
             tomato8, tomato9, tomato10;
     private long timeRemain, workTime;
+    private boolean isStarted = false;
+    private CountDownTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +61,67 @@ public class MainActivity extends AppCompatActivity {
 
         workTimeStr = getWorkTime();
 
+        // timer
+        //final com.example.danhnguyen.tomatorelax.CounterClass timer;
+
+
         if (workTimeStr.contains("seconds")){
-            workTime = workTimeStr.split(" ");
+            timeRemain = workTime = Long.parseLong(workTimeStr.replace(" seconds", ""));
+            if (timeRemain < 10) {
+                alarm.setText("00:0" + timeRemain);
+            } else if (timeRemain < 60) {
+                alarm.setText("00:" + timeRemain);
+            }
+
+
+
         } else if (workTimeStr.contains("minutes")){
+            timeRemain = workTime = Long.parseLong(workTimeStr.replace(" minutes", ""));
+            alarm.setText(timeRemain + ":00");
+            timeRemain = workTime = Long.parseLong(workTimeStr.replace(" minutes", "")) * 60;
 
         }
 
+        timer = new CountDownTimer(workTime * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long millis = millisUntilFinished;
+                long hour = TimeUnit.MILLISECONDS.toHours(millis);
+                long minnute = TimeUnit.MILLISECONDS.toMinutes(millis) -
+                        TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis));
+                long second = TimeUnit.MILLISECONDS.toSeconds(millis) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis));
+                String hms = String.format("%02d:%02d:%02d", hour, minnute, second);
+                Log.d("Kq: ", hms);
 
-        System.out.println(numOfTomato + "DanhNguyen@");
-        System.out.println(workTimeStr + "DanhNguyen@");
+                alarm.setText(hms);
+                timeRemain = millis/1000;
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        };
+
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isStarted == false) {
+                    isStarted = true;
+                    timer.start();
+                    btnStart.setText("Pause");
+                } else {
+                    isStarted = false;
+                    timer.cancel();
+                    btnStart.setText("Start");
+                }
+                System.out.println(numOfTomato + "DanhNguyen@");
+                System.out.println(workTime + "DanhNguyen@");
+            }
+        });
+
+
     }
 
     @Override
@@ -73,9 +134,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_home:
-                Toast.makeText(getApplicationContext(),"Item 1 Selected",Toast.LENGTH_LONG).show();
-                return true;
             case R.id.menu_setting:
                 //Toast.makeText(getApplicationContext(),"Item 2 Selected",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(this, SettingActivity.class);
@@ -88,6 +146,31 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        numOfTomato = getNumOfTomato();
+        setColorOfTomato(numOfTomato);
+
+        workTimeStr = getWorkTime();
+
+        if (workTimeStr.contains("seconds")){
+            timeRemain = workTime = Long.parseLong(workTimeStr.replace(" seconds", ""));
+            if (timeRemain < 10) {
+                alarm.setText("00:0" + timeRemain);
+            } else if (timeRemain < 60) {
+                alarm.setText("00:" + timeRemain);
+            }
+
+
+
+        } else if (workTimeStr.contains("minutes")){
+            timeRemain = workTime = Long.parseLong(workTimeStr.replace(" minutes", ""));
+            alarm.setText(timeRemain + ":00");
         }
     }
 
@@ -244,6 +327,37 @@ public class MainActivity extends AppCompatActivity {
                 tomato9.setImageResource(R.mipmap.red_tomato);
                 tomato10.setImageResource(R.mipmap.red_tomato);
                 break;
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+    @SuppressLint("NewApi")
+    public class CounterClass extends CountDownTimer {
+
+        public CounterClass(long millisInFuture, long countDownInterval){
+            super(millisInFuture, countDownInterval);
+
+        }
+
+        @SuppressLint("NewApi")
+        @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+        @Override
+        public void onTick(long millisUntilFinished) {
+            //long millis = millisUntilFinished;
+//            String ms = String.format("%02d:%02d:%02d",
+//                    TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+//                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+//                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+//                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+//                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
+//            System.out.println(ms);
+//            alarm.setText(ms);
+//            timeRemain = millisUntilFinished/1000;
+        }
+
+        @Override
+        public void onFinish() {
+            alarm.setText("00:00");
         }
     }
 }
